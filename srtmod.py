@@ -7,6 +7,8 @@ import os
 import sys
 import textwrap
 
+SEPARATOR = " --> "
+
 def timedelta_parse(delta):
 	hours, minutes, rest = delta.split(":")
 	seconds, milliseconds = rest.split(",")
@@ -20,7 +22,7 @@ def timedelta_format(delta):
 	return "{:02}:{:02}:{:02},{:03}".format(hours, minutes, seconds, milliseconds)
 
 def process_line(line, op):
-	start, end = line.split(" --> ", maxsplit=1)
+	start, end = line.split(SEPARATOR, maxsplit=1)
 	
 	start = timedelta_parse(start)
 	end = timedelta_parse(end)
@@ -30,14 +32,14 @@ def process_line(line, op):
 	
 	start = timedelta_format(start)
 	end = timedelta_format(end)
-	return start + " --> " + end
+	return start + SEPARATOR + end
 	
 	
 def process_file(file, op):
 	result = []
 	for line in file:
 		line = line.strip()
-		if line.find("-->") != -1:
+		if line.find(SEPARATOR) != -1:
 			line = process_line(line, op)
 			
 		result.append(line)
