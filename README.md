@@ -13,8 +13,8 @@ Usage: srtmod.py [<delta>][@<time>] [<delta>][@<time>]
 By giving two operations with different times, subtitles may be slowed down or sped up.
 Subtitles are read from stdin.
 Examples:
-	Move subs one second to the front everywhere: {program} -1000 < subtitles.srt
-	Move subs 500ms to the front at 10min but keep the timing at 5min (speeding them up in result): {program} @5:00 -500@10:00 < subtitles.srt
+	Move subs one second to the front everywhere: srtmod.py -1000 < subtitles.srt
+	Move subs 500ms to the front at 10min but keep the timing at 5min (speeding them up in result): srtmod.py @5:00 -500@10:00 < subtitles.srt
 ```
 
 ### Notes:
