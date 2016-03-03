@@ -63,6 +63,10 @@ def timedelta_format(delta):
 	return "{:02}:{:02}:{:02},{:03}".format(hours, minutes, seconds, milliseconds)
 
 def process_line(line, op):
+	if line.find(SEPARATOR) == -1:
+		return line
+
+	line = line.strip()
 	start, end = line.split(SEPARATOR, maxsplit=1)
 	
 	start = timedelta_parse(start)
@@ -73,19 +77,7 @@ def process_line(line, op):
 	
 	start = timedelta_format(start)
 	end = timedelta_format(end)
-	return start + SEPARATOR + end
-	
-	
-def process_file(file, op):
-	result = []
-	for line in file:
-		line = line.strip()
-		if line.find(SEPARATOR) != -1:
-			line = process_line(line, op)
-			
-		result.append(line)
-	
-	return "\n".join(result)
+	return start + SEPARATOR + end + "\n"
 
 
 def print_help():
@@ -111,7 +103,8 @@ def main():
 	if len(args) == 2:
 		try:
 			op = Operation(args[0], args[1])
-			sys.stdout.write(process_file(sys.stdin, op))
+			for line in sys.stdin:
+				sys.stdout.write(process_line(line, op))
 		except ValueError as v:
 			print(v)
 			print_help()
